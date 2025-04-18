@@ -5,6 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ManageExpense from './screens/ManageExpense';
 import RecentExpenses from './screens/RecentExpenses';
 import AllExpenses from './screens/AllExpenses';
+import { GlobalStyles } from './constants/styles';
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -12,9 +14,34 @@ const BottomTab = createBottomTabNavigator();
 // Nested Tab Navigator
 function ExpenseOverView() {
 	return (
-		<BottomTab.Navigator>
-			<BottomTab.Screen name='RecentExpenses' component={RecentExpenses}/>
-			<BottomTab.Screen name='AllExpenses' component={AllExpenses} />
+		<BottomTab.Navigator
+			screenOptions={{
+				headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+				headerTintColor: 'white',
+				tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+				tabBarActiveTintColor: 'white'
+			}}
+		>
+			<BottomTab.Screen 
+				name='RecentExpenses' 
+				component={RecentExpenses} 
+				options={{
+					title: 'Recent Expenses',
+					tabBarLabel: 'Recent',
+					tabBarIcon: ({color, size}) => (<Ionicons name='hourglass' color={color} size={size} />)
+				}} 
+			/>
+
+			<BottomTab.Screen 
+				name='AllExpenses' 
+				component={AllExpenses} 
+				options={{
+					title: 'All Expenses',
+					tabBarLabel: 'All Expenses',
+					tabBarIcon: ({color, size}) => (<Ionicons name='calendar' color={color} size={size} />)
+				}} 
+			/>
+			
 		</BottomTab.Navigator>
 	)
 }
@@ -27,8 +54,8 @@ export default function App() {
 				<Stack.Navigator
 					initialRouteName='ExpenseOverview'
 				>
+					<Stack.Screen name='ExpenseOverview' component={ExpenseOverView} options={{headerShown: false}} />
 					<Stack.Screen name='ManageExpense' component={ManageExpense} />
-					<Stack.Screen name='ExpenseOverview' component={ExpenseOverView} />
 				</Stack.Navigator>
       		</NavigationContainer>
     	</>
