@@ -10,4 +10,4 @@ function ManageExpense() {
     );
 };
 
-export default ManageExpense
+export default ManageExpense;
