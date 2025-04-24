@@ -6,7 +6,18 @@ A React-Native practice project.<br>
 
 ## Demonstration:
 
-![Screens](./demoGifs/screens.gif)<br>
-![Add Expense](./demoGifs/addexpense.gif)<br>
-![Remove Expense](./demoGifs/removeExpense.gif)<br>
-![Update Expense](./demoGifs/updateExpense.gif)<br>
+### Screens -
+
+<img src="./demoGifs/screens.gif" height="500"><br>
+
+### Add Expense -
+
+<img src="./demoGifs/addexpense.gif" height="500"><br>
+
+### Remove Expense -
+
+<img src="./demoGifs/removeExpense.gif" height="500"><br>
+
+### Update Expense -
+
+<img src="./demoGifs/updateExpense.gif" height="500"><br>
