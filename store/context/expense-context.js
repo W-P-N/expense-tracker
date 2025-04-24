@@ -15,7 +15,8 @@ function expensesReducer(state, action) {
             return [{...action.payload, id: id}, ...state];
         }
         case 'SET':{
-            return action.payload
+            const inverted = action.payload.reverse();
+            return inverted;
         }
         case 'UPDATE': {
             const updatableExpenseIdx = state.findIndex((expense) => expense.id === action.payload.id);  // Find the element to update and store in a constant.

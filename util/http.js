@@ -13,7 +13,6 @@ export async function getExpenses() {
     const resp = await axios.get(
         URL + '/expenses.json',
     );
-    console.log(resp.data);
     const expenses = [];
 
     for(const key in resp.data) {
