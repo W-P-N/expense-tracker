@@ -7,10 +7,12 @@ import { ExpensesContext } from "../store/context/expense-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
+import ErrorOverlay from "../components/ui/ErrorOverlay";
 
 function ManageExpense({route, navigation}) {
 
     const [isFetching, setIsFetching] = useState(false);
+    const [error, setError] = useState();
 
     const expensesCtx = useContext(ExpensesContext);
 
@@ -27,29 +29,46 @@ function ManageExpense({route, navigation}) {
 
     async function deleteExpenseHandler() {
         setIsFetching(true);
-        await deleteExpense(editedExpenseId);
+        try {
+            await deleteExpense(editedExpenseId);
+            expensesCtx.removeExpense(editedExpenseId);
+            navigation.goBack();
+        } catch (error) {
+            setError('Unable to delete the expense, please try again.');
+        }
         setIsFetching(false);
-        expensesCtx.removeExpense(editedExpenseId);
-        navigation.goBack();
     };
     function cancelHandler() {
         navigation.goBack();
     };
     async function confirmHandler(expenseData) {
         setIsFetching(true);
+        try {        
         if (isEditing) {
             setIsFetching(true);
-            expensesCtx.updateExpense(editedExpenseId, expenseData);
-            await updateExpense(editedExpenseId, expenseData);
-            setIsFetching(false);
-        } else {
-            setIsFetching(true);
-            const id = await storeExpense(expenseData);
-            setIsFetching(false);
-            expensesCtx.addExpense({...expenseData, id: id});
+                expensesCtx.updateExpense(editedExpenseId, expenseData);
+                await updateExpense(editedExpenseId, expenseData);
+                navigation.goBack();
+                setIsFetching(false);
+            } else {
+                setIsFetching(true);
+                    const id = await storeExpense(expenseData);
+                    expensesCtx.addExpense({...expenseData, id: id});
+                    navigation.goBack();
+                setIsFetching(false);
+            }
+        } catch (error) {
+            setError('Unable to update the expense, please try again');
         }
-        navigation.goBack();
     };
+
+    function handleError() {
+        setError(null);
+    }
+
+    if(error && !isFetching) {
+        return <ErrorOverlay message={error} onConfirm={handleError} />
+    }
 
     if(isFetching) {
         return <LoadingOverlay />
