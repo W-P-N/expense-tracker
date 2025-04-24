@@ -29,5 +29,18 @@ export async function getExpenses() {
     };
 
     return expenses;
-}
+};
+
+export function updateExpense(id, expenseData) {
+    return axios.put(
+        URL + `/expenses/${id}.json`,
+        expenseData
+    );
+};
+
+export async function deleteExpense(id) {
+    return axios.delete(
+        URL + `/expenses/${id}.json`
+    );
+};
 
